@@ -15,6 +15,8 @@
 # $ python radio_freq.py "BBC Radio 5"
 # I don't know the frequency of BBC Radio 5
 
+import argparse
+
 fm_frequencies = {
     "89.1 MHz": "BBC Radio 2",
     "91.3 MHz": "BBC Radio 3",
@@ -30,8 +32,6 @@ fm_frequencies = {
     "106.2 MHz": "Heart 106.2",
 }
 
-print("I know about {} FM radio stations".format(len(fm_frequencies)))
-
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
 
@@ -40,3 +40,26 @@ print("I know about {} FM radio stations".format(len(fm_frequencies)))
 #   given a list of all stations that the program does know about.
 # * Change the program so that if it is called without arguments, a table of
 #   all radio stations and their frequencies is displayed.
+
+
+def get_parser():
+    parser = argparse.ArgumentParser(
+        description="This program knows about the frequencies of various FM radio stations in London."
+    )
+    parser.add_argument(
+        "station_name", nargs="?", default="", help="Name of the radio station"
+    )
+    return parser
+
+
+def main():
+    args = get_parser().parse_args()
+    station_name = args.station_name
+    if not station_name:
+        print("I know about {} FM radio stations".format(len(fm_frequencies)))
+    else:
+        raise NotImplementedError
+
+
+if __name__ == "__main__":
+    main()
