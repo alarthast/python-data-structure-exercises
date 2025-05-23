@@ -54,9 +54,21 @@ def get_parser():
     return parser
 
 
+def get_table():
+    def wrap(left, right, width):
+        return "|" + left.ljust(width) + "|" + right.ljust(width) + "|"
+
+    header_texts = ["Station Name", "Frequency"]
+    width = max(len(item) for item in header_texts + list(fm_stations.keys())) + 1
+    border = "|" + 2 * ("-" * width + "|")
+    header = wrap(header_texts[0], header_texts[1], width)
+    contents = [wrap(name, freq, width) for name, freq in fm_stations.items()]
+    return "\n".join([border, header, border, *contents, border])
+
+
 def get_message(station_name):
     if not station_name:
-        return "I know about {} FM radio stations".format(len(fm_frequencies))
+        return f"I know about {len(fm_frequencies)} FM radio stations:\n{get_table()}"
 
     matched = {
         name: freq
