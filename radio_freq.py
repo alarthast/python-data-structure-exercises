@@ -32,6 +32,8 @@ fm_frequencies = {
     "106.2 MHz": "Heart 106.2",
 }
 
+fm_stations = {v: k for k, v in fm_frequencies.items()}
+
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
 
@@ -55,8 +57,13 @@ def get_parser():
 def get_message(station_name):
     if not station_name:
         return "I know about {} FM radio stations".format(len(fm_frequencies))
-    else:
-        raise NotImplementedError
+
+    frequency = fm_stations.get(station_name, "")
+
+    if not frequency:
+        return f"I don't know the frequency of {station_name}"
+
+    return f"You can listen to {station_name} on {frequency.replace('MHz', 'FM')}"
 
 
 def main():
