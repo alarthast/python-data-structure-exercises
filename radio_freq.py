@@ -17,7 +17,7 @@
 
 import argparse
 
-fm_frequencies = {
+_FM_FREQUENCIES = {
     "89.1 MHz": "BBC Radio 2",
     "91.3 MHz": "BBC Radio 3",
     "93.5 MHz": "BBC Radio 4",
@@ -32,7 +32,7 @@ fm_frequencies = {
     "106.2 MHz": "Heart 106.2",
 }
 
-fm_stations = {v: k.replace("MHz", "FM") for k, v in fm_frequencies.items()}
+FM_STATIONS = {v: k.replace("MHz", "FM") for k, v in _FM_FREQUENCIES.items()}
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
@@ -59,25 +59,25 @@ def get_table():
         return "|" + left.ljust(width) + "|" + right.ljust(width) + "|"
 
     header_texts = ["Station Name", "Frequency"]
-    width = max(len(item) for item in header_texts + list(fm_stations.keys())) + 1
+    width = max(len(item) for item in header_texts + list(FM_STATIONS.keys())) + 1
     border = "|" + 2 * ("-" * width + "|")
     header = wrap(header_texts[0], header_texts[1], width)
-    contents = [wrap(name, freq, width) for name, freq in fm_stations.items()]
+    contents = [wrap(name, freq, width) for name, freq in FM_STATIONS.items()]
     return "\n".join([border, header, border, *contents, border])
 
 
 def get_message(station_name):
     if not station_name:
-        return f"I know about {len(fm_frequencies)} FM radio stations:\n{get_table()}"
+        return f"I know about {len(FM_STATIONS)} FM radio stations:\n{get_table()}"
 
     matched = {
         name: freq
-        for name, freq in fm_stations.items()
+        for name, freq in FM_STATIONS.items()
         if station_name.lower() in name.lower()
     }
 
     if not matched:
-        all_stations = ", ".join(sorted(fm_stations.keys()))
+        all_stations = ", ".join(sorted(FM_STATIONS.keys()))
         return f"I don't know the frequency of {station_name}.\nI know about:\n{all_stations}"
 
     return "\n".join(
