@@ -65,7 +65,8 @@ def get_message(station_name):
     }
 
     if not matched:
-        return f"I don't know the frequency of {station_name}"
+        all_stations = ", ".join(fm_stations.keys())
+        return f"I don't know the frequency of {station_name}.\nI know about:\n{all_stations}"
 
     return "\n".join(
         [
