@@ -52,13 +52,16 @@ def get_parser():
     return parser
 
 
-def main():
-    args = get_parser().parse_args()
-    station_name = args.station_name
+def get_message(station_name):
     if not station_name:
-        print("I know about {} FM radio stations".format(len(fm_frequencies)))
+        return "I know about {} FM radio stations".format(len(fm_frequencies))
     else:
         raise NotImplementedError
+
+
+def main():
+    args = get_parser().parse_args()
+    print(get_message(args.station_name))
 
 
 if __name__ == "__main__":
