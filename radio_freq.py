@@ -58,12 +58,21 @@ def get_message(station_name):
     if not station_name:
         return "I know about {} FM radio stations".format(len(fm_frequencies))
 
-    frequency = fm_stations.get(station_name, "")
+    matched = {
+        name: freq
+        for name, freq in fm_stations.items()
+        if station_name.lower() in name.lower()
+    }
 
-    if not frequency:
+    if not matched:
         return f"I don't know the frequency of {station_name}"
 
-    return f"You can listen to {station_name} on {frequency.replace('MHz', 'FM')}"
+    return "\n".join(
+        [
+            f"You can listen to {name} on {freq.replace('MHz', 'FM')}"
+            for name, freq in matched.items()
+        ]
+    )
 
 
 def main():
