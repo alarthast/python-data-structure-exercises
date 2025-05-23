@@ -32,7 +32,7 @@ fm_frequencies = {
     "106.2 MHz": "Heart 106.2",
 }
 
-fm_stations = {v: k for k, v in fm_frequencies.items()}
+fm_stations = {v: k.replace("MHz", "FM") for k, v in fm_frequencies.items()}
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
@@ -69,10 +69,7 @@ def get_message(station_name):
         return f"I don't know the frequency of {station_name}.\nI know about:\n{all_stations}"
 
     return "\n".join(
-        [
-            f"You can listen to {name} on {freq.replace('MHz', 'FM')}"
-            for name, freq in matched.items()
-        ]
+        [f"You can listen to {name} on {freq}" for name, freq in matched.items()]
     )
 
 
