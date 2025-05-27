@@ -15,7 +15,7 @@
 # I don't know the RGB code for burnt sienna
 import argparse
 
-colours = [
+COLOURS = [
     ["red", "F00"],
     ["yellow", "FF0"],
     ["green", "0F0"],
@@ -24,7 +24,6 @@ colours = [
     ["magenta", "F0F"],
 ]
 
-KNOWN_COLOURS = {i[0]: i[1] for i in colours}
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
@@ -46,9 +45,9 @@ def get_parser():
 
 
 def get_message(colour):
-    code = KNOWN_COLOURS.get(colour, None)
-    if code:
-        return f"The RGB code for {colour} is {code}"
+    for name, code in COLOURS:
+        if name == colour:
+            return f"The RGB code for {colour} is {code}"
     return f"I don't know the RGB code for {colour}"
 
 
