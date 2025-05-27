@@ -46,16 +46,26 @@ def get_parser():
     return parser
 
 
+def is_rgb_code(text):
+    if len(text) == 3:
+        try:
+            int(text, 16)  # A rgb code should be convertible to hexadecimal
+            return True
+        except ValueError:
+            pass
+    return False
+
+
 def get_message(user_input):
     for colour, code in COLOURS:
         if colour == user_input.lower():
             return f"The RGB code for {colour} is {code}"
         elif code == user_input.upper():
             return f"The colour for {code} is {colour}"
-    try:
-        int(user_input, 16)  # Would not error if a RGB code is provided
+
+    if is_rgb_code(user_input):
         return f"I don't know the colour for {user_input}"
-    except ValueError:  # Assume a colour is provided
+    else:
         return f"I don't know the RGB code for {user_input}"
 
 
