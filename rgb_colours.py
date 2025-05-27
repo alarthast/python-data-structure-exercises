@@ -39,21 +39,29 @@ def get_parser():
         description="This program knows about the RGB code corresponding to common colours."
     )
     parser.add_argument(
-        "colour", type=str, help="Colour for which the RGB code is requested"
+        "input",
+        type=str,
+        help="Colour for which the RGB code is requested, or vice versa",
     )
     return parser
 
 
-def get_message(colour):
-    for name, code in COLOURS:
-        if name == colour:
-            return f"The RGB code for {colour} is {code}"
-    return f"I don't know the RGB code for {colour}"
+def get_message(user_input):
+    for colour, code in COLOURS:
+        if colour == user_input:
+            return f"The RGB code for {user_input} is {code}"
+        elif code == user_input:
+            return f"The colour for {user_input} is {colour}"
+    try:
+        int(user_input, 16)  # Would not error if a RGB code is provided
+        return f"I don't know the colour for {user_input}"
+    except ValueError:  # Assume a colour is provided
+        return f"I don't know the RGB code for {user_input}"
 
 
 def main():
     args = get_parser().parse_args()
-    message = get_message(args.colour)
+    message = get_message(args.input)
     print(message)
 
 
