@@ -48,10 +48,10 @@ def get_parser():
 
 def get_message(user_input):
     for colour, code in COLOURS:
-        if colour == user_input:
-            return f"The RGB code for {user_input} is {code}"
-        elif code == user_input:
-            return f"The colour for {user_input} is {colour}"
+        if colour == user_input.lower():
+            return f"The RGB code for {colour} is {code}"
+        elif code == user_input.upper():
+            return f"The colour for {code} is {colour}"
     try:
         int(user_input, 16)  # Would not error if a RGB code is provided
         return f"I don't know the colour for {user_input}"
