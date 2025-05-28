@@ -20,10 +20,7 @@ RESULTS = [
 TOTAL_GOALS = {}
 for match in RESULTS:
     for team, goals in match.items():
-        try:
-            TOTAL_GOALS[team] += goals
-        except KeyError:
-            TOTAL_GOALS[team] = goals
+        TOTAL_GOALS[team] = TOTAL_GOALS.get(team, 0) + goals
 
 print("There were {} matches in the group".format(len(RESULTS)))
 
