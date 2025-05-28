@@ -25,9 +25,9 @@
 # Music: B
 
 
-subjects = ["Maths", "Philosophy", "Geography", "Music"]
+SUBJECTS = ("Maths", "Philosophy", "Geography", "Music")
 
-grade_boundaries = {
+GRADE_BOUNDARIES = {
     "A": [70, 100],
     "B": [60, 69],
     "C": [50, 59],
@@ -39,7 +39,7 @@ grade_boundaries = {
 marks = {}
 
 print("This program will ask you your marks in the following subjects:")
-for subject in subjects:
+for subject in SUBJECTS:
     marks[subject] = input("What marks did you get in {}?\n".format(subject))
 print("\nYour grades:\n")
 for subject, mark in marks.items():
