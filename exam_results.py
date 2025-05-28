@@ -25,20 +25,20 @@
 # Music: B
 
 
-subjects = ['Maths', 'Philosophy', 'Geography', 'Music']
+subjects = ["Maths", "Philosophy", "Geography", "Music"]
 
 grade_boundaries = {
-    'A': [70, 100],
-    'B': [60, 69],
-    'C': [50, 59],
-    'D': [40, 49],
-    'E': [30, 39],
-    'F': [0, 29],
+    "A": [70, 100],
+    "B": [60, 69],
+    "C": [50, 59],
+    "D": [40, 49],
+    "E": [30, 39],
+    "F": [0, 29],
 }
 
-print('This program will ask you your marks in the following subjects:')
+print("This program will ask you your marks in the following subjects:")
 for subject in subjects:
-    print(' * {}'.format(subject))
+    print(" * {}".format(subject))
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
