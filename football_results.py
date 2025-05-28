@@ -18,7 +18,7 @@ RESULTS = [
 ]
 
 
-def get_points(match):
+def get_points(match: dict):
     if len(set(match.values())) == 1:  # draw
         return {team: 1 for team in match}
     (loser, winner) = sorted(match.keys(), key=match.get)
@@ -36,7 +36,7 @@ print("There were {} matches in the group".format(len(RESULTS)))
 
 
 # TODO: Write code to answer the following questions:
-def format(match):  # Convert an entry into a human readable string
+def format(match: dict):  # Convert an entry into a human readable string
     return " vs ".join(match.keys())
 
 
