@@ -17,11 +17,21 @@ RESULTS = [
     {"Hungary": 3, "Portugal": 3},
 ]
 
+
+def get_points(match):
+    if len(set(match.values())) == 1:  # draw
+        return {team: 1 for team in match}
+    (loser, winner) = sorted(match.keys(), key=match.get)
+    return {loser: 0, winner: 3}
+
+
 TOTAL_GOALS = {}
+TOTAL_POINTS = {}
 for match in RESULTS:
     for team, goals in match.items():
         TOTAL_GOALS[team] = TOTAL_GOALS.get(team, 0) + goals
-
+    for team, points in get_points(match).items():
+        TOTAL_POINTS[team] = TOTAL_POINTS.get(team, 0) + points
 print("There were {} matches in the group".format(len(RESULTS)))
 
 
@@ -40,7 +50,7 @@ print(
 )
 print("The team with the most total goals was", max(TOTAL_GOALS, key=TOTAL_GOALS.get))
 print("The team with the fewest total goals was", min(TOTAL_GOALS, key=TOTAL_GOALS.get))
-print("The team with the most points was", "?")
-print("The team with the fewest points was", "?")
+print("The team with the most points was", max(TOTAL_POINTS, key=TOTAL_POINTS.get))
+print("The team with the fewest points was", min(TOTAL_POINTS, key=TOTAL_POINTS.get))
 
 # TODO (extra): Write code to compute and display a league table
