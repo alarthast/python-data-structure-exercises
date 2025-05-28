@@ -37,7 +37,7 @@ GRADE_BOUNDARIES = {
 }
 
 
-def get_grade(mark: int):
+def get_grade(mark: float):
     for grade, (lower, upper) in GRADE_BOUNDARIES.items():
         if mark >= lower and mark <= upper:
             return grade
@@ -51,7 +51,7 @@ for subject in SUBJECTS:
     question = "What marks did you get in {}?\n".format(subject)
     while True:
         try:
-            grades[subject] = get_grade(int(input(question)))
+            grades[subject] = get_grade(float(input(question)))
             break
         except ValueError:
             question = f"That's not a valid mark. Try again - what marks did you get in {subject}?\n"
