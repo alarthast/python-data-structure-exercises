@@ -40,7 +40,7 @@ marks = {}
 
 print("This program will ask you your marks in the following subjects:")
 for subject in SUBJECTS:
-    marks[subject] = input("What marks did you get in {}?\n".format(subject))
+    marks[subject] = int(input("What marks did you get in {}?\n".format(subject)))
 print("\nYour grades:\n")
 for subject, mark in marks.items():
     print(f"{subject}: {mark}")
