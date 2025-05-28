@@ -41,24 +41,24 @@ def get_grade(mark: int):
     for grade, (lower, upper) in GRADE_BOUNDARIES.items():
         if mark >= lower and mark <= upper:
             return grade
-    assert False  # Dealing with this is a TODO in the extras
+    raise ValueError("Mark sits outside of all grade boundaries.")
 
 
-marks = {}
+grades = {}
 
 print("This program will ask you your marks and tell you what grade you got.")
 for subject in SUBJECTS:
     question = "What marks did you get in {}?\n".format(subject)
     while True:
         try:
-            marks[subject] = int(input(question))
+            grades[subject] = get_grade(int(input(question)))
             break
         except ValueError:
-            question = f"That's not a number. Try again - what marks did you get in {subject}?\n"
+            question = f"That's not a valid mark. Try again - what marks did you get in {subject}?\n"
 
 print("\nYour grades:\n")
-for subject, mark in marks.items():
-    print(f"{subject}: {get_grade(mark)}")
+for subject, grade in grades.items():
+    print(f"{subject}: {grade}")
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
