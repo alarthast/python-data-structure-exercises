@@ -40,6 +40,11 @@ def format(match):  # Convert an entry into a human readable string
     return " vs ".join(match.keys())
 
 
+def get_key_for_extremum_including_ties(d: dict, func: callable):
+    val = func(d.values())
+    return ", ".join([k for k, v in d.items() if v == val])
+
+
 print(
     "The match with the most goals was",
     format(max(RESULTS, key=lambda match: sum(match.values()))),
@@ -48,9 +53,21 @@ print(
     "The match with the fewest goals was",
     format(min(RESULTS, key=lambda match: sum(match.values()))),
 )
-print("The team with the most total goals was", max(TOTAL_GOALS, key=TOTAL_GOALS.get))
-print("The team with the fewest total goals was", min(TOTAL_GOALS, key=TOTAL_GOALS.get))
-print("The team with the most points was", max(TOTAL_POINTS, key=TOTAL_POINTS.get))
-print("The team with the fewest points was", min(TOTAL_POINTS, key=TOTAL_POINTS.get))
+print(
+    "The team(s) with the most total goals was",
+    get_key_for_extremum_including_ties(TOTAL_GOALS, max),
+)
+print(
+    "The team(s) with the fewest total goals was",
+    get_key_for_extremum_including_ties(TOTAL_GOALS, min),
+)
+print(
+    "The team(s) with the most points was",
+    get_key_for_extremum_including_ties(TOTAL_POINTS, max),
+)
+print(
+    "The team(s) with the fewest points was",
+    get_key_for_extremum_including_ties(TOTAL_POINTS, min),
+)
 
 # TODO (extra): Write code to compute and display a league table
