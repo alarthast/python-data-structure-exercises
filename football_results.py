@@ -8,7 +8,7 @@
 #
 # NB Teams score three points for a win and one point for a draw.
 
-results = [
+RESULTS = [
     {"Austria": 0, "Hungary": 2},
     {"Portugal": 1, "Iceland": 1},
     {"Iceland": 1, "Hungary": 1},
@@ -17,7 +17,7 @@ results = [
     {"Hungary": 3, "Portugal": 3},
 ]
 
-print("There were {} matches in the group".format(len(results)))
+print("There were {} matches in the group".format(len(RESULTS)))
 
 
 # TODO: Write code to answer the following questions:
@@ -27,11 +27,11 @@ def format(match):  # Convert an entry into a human readable string
 
 print(
     "The match with the most goals was",
-    format(max(results, key=lambda match: sum(match.values()))),
+    format(max(RESULTS, key=lambda match: sum(match.values()))),
 )
 print(
     "The match with the fewest goals was",
-    format(min(results, key=lambda match: sum(match.values()))),
+    format(min(RESULTS, key=lambda match: sum(match.values()))),
 )
 print("The team with the most total goals was", "?")
 print("The team with the fewest total goals was", "?")
