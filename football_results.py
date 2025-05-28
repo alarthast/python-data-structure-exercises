@@ -17,6 +17,14 @@ RESULTS = [
     {"Hungary": 3, "Portugal": 3},
 ]
 
+TOTAL_GOALS = {}
+for match in RESULTS:
+    for team, goals in match.items():
+        try:
+            TOTAL_GOALS[team] += goals
+        except KeyError:
+            TOTAL_GOALS[team] = goals
+
 print("There were {} matches in the group".format(len(RESULTS)))
 
 
@@ -33,8 +41,8 @@ print(
     "The match with the fewest goals was",
     format(min(RESULTS, key=lambda match: sum(match.values()))),
 )
-print("The team with the most total goals was", "?")
-print("The team with the fewest total goals was", "?")
+print("The team with the most total goals was", max(TOTAL_GOALS, key=TOTAL_GOALS.get))
+print("The team with the fewest total goals was", min(TOTAL_GOALS, key=TOTAL_GOALS.get))
 print("The team with the most points was", "?")
 print("The team with the fewest points was", "?")
 
