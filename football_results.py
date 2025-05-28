@@ -19,10 +19,20 @@ results = [
 
 print("There were {} matches in the group".format(len(results)))
 
-# TODO: Write code to answer the following questions:
 
-print("The match with the most goals was", "?")
-print("The match with the fewest goals was", "?")
+# TODO: Write code to answer the following questions:
+def format(match):  # Convert an entry into a human readable string
+    return " vs ".join(match.keys())
+
+
+print(
+    "The match with the most goals was",
+    format(max(results, key=lambda match: sum(match.values()))),
+)
+print(
+    "The match with the fewest goals was",
+    format(min(results, key=lambda match: sum(match.values()))),
+)
 print("The team with the most total goals was", "?")
 print("The team with the fewest total goals was", "?")
 print("The team with the most points was", "?")
