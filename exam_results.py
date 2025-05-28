@@ -36,6 +36,14 @@ GRADE_BOUNDARIES = {
     "F": [0, 29],
 }
 
+
+def get_grade(mark: int):
+    for grade, (lower, upper) in GRADE_BOUNDARIES.items():
+        if mark >= lower and mark <= upper:
+            return grade
+    assert False  # Dealing with this is a TODO in the extras
+
+
 marks = {}
 
 print("This program will ask you your marks and tell you what grade you got.")
@@ -43,7 +51,7 @@ for subject in SUBJECTS:
     marks[subject] = int(input("What marks did you get in {}?\n".format(subject)))
 print("\nYour grades:\n")
 for subject, mark in marks.items():
-    print(f"{subject}: {mark}")
+    print(f"{subject}: {get_grade(mark)}")
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
