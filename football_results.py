@@ -17,12 +17,14 @@ RESULTS = [
     {"Hungary": 3, "Portugal": 3},
 ]
 
+POINTS = {"W": 3, "D": 1, "L": 0}
 
-def get_points(match: dict):
+
+def get_win_draw_or_lose(match: dict):
     if len(set(match.values())) == 1:  # draw
-        return {team: 1 for team in match}
+        return {team: "D" for team in match}
     (loser, winner) = sorted(match.keys(), key=match.get)
-    return {loser: 0, winner: 3}
+    return {loser: "L", winner: "W"}
 
 
 TOTAL_GOALS = {}
@@ -30,8 +32,8 @@ TOTAL_POINTS = {}
 for match in RESULTS:
     for team, goals in match.items():
         TOTAL_GOALS[team] = TOTAL_GOALS.get(team, 0) + goals
-    for team, points in get_points(match).items():
-        TOTAL_POINTS[team] = TOTAL_POINTS.get(team, 0) + points
+    for team, wdl in get_win_draw_or_lose(match).items():
+        TOTAL_POINTS[team] = TOTAL_POINTS.get(team, 0) + POINTS[wdl]
 print("There were {} matches in the group".format(len(RESULTS)))
 
 
