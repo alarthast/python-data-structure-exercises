@@ -27,13 +27,21 @@ def get_win_draw_or_lose(match: dict):
     return {loser: "L", winner: "W"}
 
 
+def get_total_points(history: dict):
+    return sum(POINTS.get(key) * value for key, value in history.items())
+
+
 TOTAL_GOALS = {}
-TOTAL_POINTS = {}
+HISTORY = {}
 for match in RESULTS:
     for team, goals in match.items():
         TOTAL_GOALS[team] = TOTAL_GOALS.get(team, 0) + goals
     for team, wdl in get_win_draw_or_lose(match).items():
-        TOTAL_POINTS[team] = TOTAL_POINTS.get(team, 0) + POINTS[wdl]
+        hist = HISTORY.get(team, {})
+        hist[wdl] = hist.get(wdl, 0) + 1
+        HISTORY[team] = hist
+
+TOTAL_POINTS = {team: get_total_points(wdl) for team, wdl in HISTORY.items()}
 print("There were {} matches in the group".format(len(RESULTS)))
 
 
@@ -73,3 +81,14 @@ print(
 )
 
 # TODO (extra): Write code to compute and display a league table
+print("-" * 25)
+print(f"{'Team':<10}|G |W |D |L |P")
+print("-" * 25)
+
+for team in HISTORY.keys():
+    goals = TOTAL_GOALS[team]
+    history = HISTORY[team]
+    points = TOTAL_POINTS[team]
+    print(
+        f"{team:<10}|{goals:<2}|{history.get('W',0):<2}|{history.get('D',0):<2}|{history.get('L',0):<2}|{points:<2}"
+    )
