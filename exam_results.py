@@ -36,6 +36,8 @@ GRADE_BOUNDARIES = {
     "F": [0, 29],
 }
 
+SUFFIXES = {1: "st", 2: "nd", 3: "rd"}
+
 
 def get_grade(mark: float):
     for grade, (lower, upper) in GRADE_BOUNDARIES.items():
@@ -47,7 +49,10 @@ def get_grade(mark: float):
 grades = {}
 
 print("This program will ask you your marks and tell you what grade you got.")
-for subject in SUBJECTS:
+num_subjects = int(input("How many subjects do you take?\n"))
+
+for i in range(num_subjects):
+    subject = input(f"What is your {i+1}{SUFFIXES.get(i+1, 'th')} subject?\n")
     question = "What marks did you get in {}?\n".format(subject)
     while True:
         try:
