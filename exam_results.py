@@ -38,7 +38,7 @@ GRADE_BOUNDARIES = {
 
 marks = {}
 
-print("This program will ask you your marks in the following subjects:")
+print("This program will ask you your marks and tell you what grade you got.")
 for subject in SUBJECTS:
     marks[subject] = int(input("What marks did you get in {}?\n".format(subject)))
 print("\nYour grades:\n")
