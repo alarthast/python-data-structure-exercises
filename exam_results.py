@@ -25,20 +25,45 @@
 # Music: B
 
 
-subjects = ['Maths', 'Philosophy', 'Geography', 'Music']
+SUBJECTS = ("Maths", "Philosophy", "Geography", "Music")
 
-grade_boundaries = {
-    'A': [70, 100],
-    'B': [60, 69],
-    'C': [50, 59],
-    'D': [40, 49],
-    'E': [30, 39],
-    'F': [0, 29],
+GRADE_BOUNDARIES = {
+    "A": [70, 100],
+    "B": [60, 69],
+    "C": [50, 59],
+    "D": [40, 49],
+    "E": [30, 39],
+    "F": [0, 29],
 }
 
-print('This program will ask you your marks in the following subjects:')
-for subject in subjects:
-    print(' * {}'.format(subject))
+SUFFIXES = {1: "st", 2: "nd", 3: "rd"}
+
+
+def get_grade(mark: float):
+    for grade, (lower, upper) in GRADE_BOUNDARIES.items():
+        if mark >= lower and mark <= upper:
+            return grade
+    raise ValueError("Mark sits outside of all grade boundaries.")
+
+
+grades = {}
+
+print("This program will ask you your marks and tell you what grade you got.")
+num_subjects = int(input("How many subjects do you take?\n"))
+
+for i in range(num_subjects):
+    subject = input(f"What is your {i+1}{SUFFIXES.get(i+1, 'th')} subject?\n")
+    question = "What marks did you get in {}?\n".format(subject)
+    while True:
+        try:
+            grades[subject] = get_grade(float(input(question)))
+            break
+        except ValueError:
+            question = f"That's not a valid mark. Try again - what marks did you get in {subject}?\n"
+
+print("\nYour grades:\n")
+for subject, grade in grades.items():
+    print(f"{subject}: {grade}")
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
