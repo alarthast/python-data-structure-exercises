@@ -24,6 +24,8 @@ COLOURS = [
     ["magenta", "F0F"],
 ]
 
+COLOURS_TO_CODES = {colour.lower(): code.lower() for colour, code in COLOURS}
+CODES_TO_COLOURS = {v: k for k, v in COLOURS_TO_CODES.items()}
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
@@ -57,14 +59,18 @@ def is_rgb_code(text):
 
 
 def get_message(user_input):
-    for colour, code in COLOURS:
-        if colour == user_input.lower():
-            return f"The RGB code for {colour} is {code}"
-        elif code == user_input.upper():
-            return f"The colour for {code} is {colour}"
+    user_input = user_input.lower()  # Convert at boundary
+
+    code = COLOURS_TO_CODES.get(user_input)
+    if code:
+        return f"The RGB code for {user_input} is {code.upper()}"
+
+    colour = CODES_TO_COLOURS.get(user_input)
+    if colour:
+        return f"The colour for {user_input.upper()} is {colour}"
 
     if is_rgb_code(user_input):
-        return f"I don't know the colour for {user_input}"
+        return f"I don't know the colour for {user_input.upper()}"
     else:
         return f"I don't know the RGB code for {user_input}"
 
