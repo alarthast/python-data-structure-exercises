@@ -20,21 +20,15 @@ RESULTS = [
 
 POINTS = {"W": 3, "D": 1, "L": 0}
 
-
-def get_win_draw_or_lose(match: dict):
-    if len(set(match.values())) == 1:  # draw
-        return {team: "D" for team in match}
-    (loser, winner) = sorted(match.keys(), key=match.get)
-    return {loser: "L", winner: "W"}
-
-
 TOTAL_GOALS = Counter()
 HISTORY = Counter()
 for match in RESULTS:
     TOTAL_GOALS.update(match)
-    HISTORY.update(
-        [f"{team}_{wdl}" for team, wdl in get_win_draw_or_lose(match).items()]
-    )
+    if len(set(match.values())) == 1:  # draw
+        HISTORY.update([f"{team}_D" for team in match])
+    else:
+        (loser, winner) = sorted(match.keys(), key=match.get)
+        HISTORY.update([f"{loser}_L", f"{winner}_W"])
 
 TOTAL_POINTS = Counter()
 for key, count in HISTORY.items():
