@@ -7,6 +7,7 @@
 # the group.
 #
 # NB Teams score three points for a win and one point for a draw.
+from collections import Counter
 
 RESULTS = [
     {"Austria": 0, "Hungary": 2},
@@ -31,11 +32,10 @@ def get_total_points(history: dict):
     return sum(POINTS.get(key) * value for key, value in history.items())
 
 
-TOTAL_GOALS = {}
+TOTAL_GOALS = Counter()
 HISTORY = {}
 for match in RESULTS:
-    for team, goals in match.items():
-        TOTAL_GOALS[team] = TOTAL_GOALS.get(team, 0) + goals
+    TOTAL_GOALS.update(match)
     for team, wdl in get_win_draw_or_lose(match).items():
         hist = HISTORY.get(team, {})
         hist[wdl] = hist.get(wdl, 0) + 1
