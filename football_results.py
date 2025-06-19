@@ -28,20 +28,19 @@ def get_win_draw_or_lose(match: dict):
     return {loser: "L", winner: "W"}
 
 
-def get_total_points(history: dict):
-    return sum(POINTS.get(key) * value for key, value in history.items())
-
-
 TOTAL_GOALS = Counter()
-HISTORY = {}
+HISTORY = Counter()
 for match in RESULTS:
     TOTAL_GOALS.update(match)
-    for team, wdl in get_win_draw_or_lose(match).items():
-        hist = HISTORY.get(team, {})
-        hist[wdl] = hist.get(wdl, 0) + 1
-        HISTORY[team] = hist
+    HISTORY.update(
+        [f"{team}_{wdl}" for team, wdl in get_win_draw_or_lose(match).items()]
+    )
 
-TOTAL_POINTS = {team: get_total_points(wdl) for team, wdl in HISTORY.items()}
+TOTAL_POINTS = Counter()
+for key, count in HISTORY.items():
+    team, wdl = key.split("_")
+    res = {team: POINTS.get(wdl) * count}
+    TOTAL_POINTS.update(res)
 
 
 # TODO: Write code to answer the following questions:
@@ -87,12 +86,11 @@ def main():
     print(f"{'Team':<10}|G |W |D |L |P")
     print("-" * 25)
 
-    for team in HISTORY.keys():
+    for team in TOTAL_GOALS.keys():
         goals = TOTAL_GOALS[team]
-        history = HISTORY[team]
         points = TOTAL_POINTS[team]
         print(
-            f"{team:<10}|{goals:<2}|{history.get('W',0):<2}|{history.get('D',0):<2}|{history.get('L',0):<2}|{points:<2}"
+            f"{team:<10}|{goals:<2}|{HISTORY.get(f'{team}_W',0):<2}|{HISTORY.get(f'{team}_D',0):<2}|{HISTORY.get(f'{team}_L',0):<2}|{points:<2}"
         )
 
 
