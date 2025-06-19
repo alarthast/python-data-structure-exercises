@@ -33,21 +33,19 @@ for match in RESULTS:
 TOTAL_POINTS = Counter()
 for key, count in HISTORY.items():
     team, wdl = key.split("_")
-    res = {team: POINTS.get(wdl) * count}
-    TOTAL_POINTS.update(res)
+    TOTAL_POINTS.update({team: POINTS.get(wdl) * count})
 
 
-# TODO: Write code to answer the following questions:
 def format(match: dict):  # Convert an entry into a human readable string
     return " vs ".join(match.keys())
 
 
 def get_key_for_extremum_including_ties(d: dict, func: callable):
-    val = func(d.values())
-    return ", ".join([k for k, v in d.items() if v == val])
+    return ", ".join([k for k, v in d.items() if v == func(d.values())])
 
 
 def main():
+    # TODO: Write code to answer the following questions:
     print("There were {} matches in the group".format(len(RESULTS)))
 
     print(
@@ -81,10 +79,8 @@ def main():
     print("-" * 25)
 
     for team in TOTAL_GOALS.keys():
-        goals = TOTAL_GOALS[team]
-        points = TOTAL_POINTS[team]
         print(
-            f"{team:<10}|{goals:<2}|{HISTORY.get(f'{team}_W',0):<2}|{HISTORY.get(f'{team}_D',0):<2}|{HISTORY.get(f'{team}_L',0):<2}|{points:<2}"
+            f"{team:<10}|{TOTAL_GOALS[team]:<2}|{HISTORY.get(f'{team}_W',0):<2}|{HISTORY.get(f'{team}_D',0):<2}|{HISTORY.get(f'{team}_L',0):<2}|{TOTAL_POINTS[team]:<2}"
         )
 
 
