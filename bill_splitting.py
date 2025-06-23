@@ -14,6 +14,8 @@
 #
 # $ python bill_splitting.py Tim
 # Tim did not have dinner
+import argparse
+import itertools
 
 bill_items = [
     ["Tom", "Calamari", 6.00],
@@ -30,11 +32,44 @@ bill_items = [
     ["Rosie", "Tiramasu", 4.90],
 ]
 
-print("There are {} items on the bill".format(len(bill_items)))
 
+def by_name(list_item):
+    return list_item[0]
+
+
+bill_items.sort(key=by_name)
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
+items_by_name = {
+    name: [tuple(item[1:]) for item in group]
+    for name, group in itertools.groupby(bill_items, key=by_name)
+}
+
+
+def get_parser():
+    parser = argparse.ArgumentParser(
+        description="This program reports how much individuals should pay for their order at dinner."
+    )
+    parser.add_argument("name", help="Name of the person")
+    return parser
+
+
+def get_message(name):
+    items = items_by_name.get(name)
+    if not items:
+        return f"{name} did not have dinner"
+    amount_owed = sum(item[1] for item in items)
+    return f"{name} should pay {amount_owed}"
+
+
+def main():
+    args = get_parser().parse_args()
+    print(get_message(args.name))
+
+
+if __name__ == "__main__":
+    main()
 
 # TODO (extra):
 # * Change the program so that it additionally reports a breakdown of what each
