@@ -59,8 +59,9 @@ def get_message(name):
     items = ITEMS_BY_NAME.get(name)
     if not items:
         return f"{name} did not have dinner"
+    breakdown = "\n".join([f"{food} - {price}" for (food, price) in items])
     amount_owed = sum(item[1] for item in items)
-    return f"{name} should pay {amount_owed}"
+    return f"{name} should pay {amount_owed}. Breakdown:\n{breakdown}"
 
 
 def main():
