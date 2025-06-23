@@ -17,7 +17,7 @@
 import argparse
 import itertools
 
-bill_items = [
+BILL_ITEMS = [
     ["Tom", "Calamari", 6.00],
     ["Tom", "American Hot", 11.50],
     ["Tom", "Chocolate Fudge Cake", 4.45],
@@ -37,13 +37,13 @@ def by_name(list_item):
     return list_item[0]
 
 
-bill_items.sort(key=by_name)
+BILL_ITEMS.sort(key=by_name)
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
-items_by_name = {
+ITEMS_BY_NAME = {
     name: [tuple(item[1:]) for item in group]
-    for name, group in itertools.groupby(bill_items, key=by_name)
+    for name, group in itertools.groupby(BILL_ITEMS, key=by_name)
 }
 
 
@@ -56,7 +56,7 @@ def get_parser():
 
 
 def get_message(name):
-    items = items_by_name.get(name)
+    items = ITEMS_BY_NAME.get(name)
     if not items:
         return f"{name} did not have dinner"
     amount_owed = sum(item[1] for item in items)
