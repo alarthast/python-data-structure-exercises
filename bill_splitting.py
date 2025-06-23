@@ -45,22 +45,32 @@ ITEMS_BY_NAME = {
     name: [tuple(item[1:]) for item in group]
     for name, group in itertools.groupby(BILL_ITEMS, key=by_name)
 }
+AMOUNT_OWED_BY_NAME = {
+    name: sum(item[1] for item in items) for name, items in ITEMS_BY_NAME.items()
+}
 
 
 def get_parser():
     parser = argparse.ArgumentParser(
         description="This program reports how much individuals should pay for their order at dinner."
     )
-    parser.add_argument("name", help="Name of the person")
+    parser.add_argument("name", nargs="?", help="Name of the person")
     return parser
 
 
 def get_message(name):
+    if not name:
+        return "\n".join(
+            [
+                f"{name:<10}|{amount:<5}"
+                for (name, amount) in AMOUNT_OWED_BY_NAME.items()
+            ]
+        )
     items = ITEMS_BY_NAME.get(name)
     if not items:
         return f"{name} did not have dinner"
     breakdown = "\n".join([f"{food} - {price}" for (food, price) in items])
-    amount_owed = sum(item[1] for item in items)
+    amount_owed = AMOUNT_OWED_BY_NAME.get(name)
     return f"{name} should pay {amount_owed}. Breakdown:\n{breakdown}"
 
 
