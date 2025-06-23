@@ -15,6 +15,7 @@
 # $ python bill_splitting.py Tim
 # Tim did not have dinner
 import argparse
+import collections
 import itertools
 
 BILL_ITEMS = [
@@ -41,12 +42,14 @@ BILL_ITEMS.sort(key=by_name)
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
-ITEMS_BY_NAME = {
-    name: [tuple(item[1:]) for item in group]
-    for name, group in itertools.groupby(BILL_ITEMS, key=by_name)
+Order = collections.namedtuple("Order", ["menu_item", "price"])
+ORDERS_BY_PERSON = {
+    person: [Order(*item[1:]) for item in group]
+    for person, group in itertools.groupby(BILL_ITEMS, key=by_name)
 }
-AMOUNT_OWED_BY_NAME = {
-    name: sum(item[1] for item in items) for name, items in ITEMS_BY_NAME.items()
+AMOUNT_OWED_BY_PERSON = {
+    person: sum(order.price for order in orders)
+    for person, orders in ORDERS_BY_PERSON.items()
 }
 
 
@@ -54,29 +57,28 @@ def get_parser():
     parser = argparse.ArgumentParser(
         description="This program reports how much individuals should pay for their order at dinner."
     )
-    parser.add_argument("name", nargs="?", help="Name of the person")
+    parser.add_argument("person", nargs="?", help="Name of the person at dinner")
     return parser
 
 
-def get_message(name):
-    if not name:
+def get_message(person):
+    if not person:
         return "\n".join(
             [
-                f"{name:<10}|{amount:<5}"
-                for (name, amount) in AMOUNT_OWED_BY_NAME.items()
+                f"{name:<10}|{amount_owed:<5}"
+                for (name, amount_owed) in AMOUNT_OWED_BY_PERSON.items()
             ]
         )
-    items = ITEMS_BY_NAME.get(name)
-    if not items:
-        return f"{name} did not have dinner"
-    breakdown = "\n".join([f"{food} - {price}" for (food, price) in items])
-    amount_owed = AMOUNT_OWED_BY_NAME.get(name)
-    return f"{name} should pay {amount_owed}. Breakdown:\n{breakdown}"
+    orders = ORDERS_BY_PERSON.get(person)
+    if not orders:
+        return f"{person} did not have dinner"
+    breakdown = "\n".join([f"{order.menu_item} - {order.price}" for order in orders])
+    return f"{person} should pay {AMOUNT_OWED_BY_PERSON.get(person)}. Breakdown:\n{breakdown}"
 
 
 def main():
     args = get_parser().parse_args()
-    print(get_message(args.name))
+    print(get_message(args.person))
 
 
 if __name__ == "__main__":
