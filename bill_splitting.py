@@ -42,18 +42,12 @@ BILL_ITEMS.sort(key=by_name)
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
-class Order:
-    def __init__(self, menu_item, price):
-        self.menu_item = menu_item
-        self.price = price
-
-
 ORDERS_BY_PERSON = {
-    person: [Order(menu_item, price) for (_, menu_item, price) in group]
+    person: [(menu_item, price) for (_, menu_item, price) in group]
     for person, group in itertools.groupby(BILL_ITEMS, key=by_name)
 }
 AMOUNT_OWED_BY_PERSON = {
-    person: sum(order.price for order in orders)
+    person: sum(order[1] for order in orders)
     for person, orders in ORDERS_BY_PERSON.items()
 }
 
@@ -77,7 +71,7 @@ def get_message(person):
     orders = ORDERS_BY_PERSON.get(person)
     if not orders:
         return f"{person} did not have dinner"
-    breakdown = "\n".join([f"{order.menu_item} - {order.price}" for order in orders])
+    breakdown = "\n".join([f"{order[0]} - {order[1]}" for order in orders])
     return f"{person} should pay {AMOUNT_OWED_BY_PERSON.get(person)}. Breakdown:\n{breakdown}"
 
 
