@@ -44,7 +44,7 @@ BILL_ITEMS.sort(key=by_name)
 # * Implement the program as described in the comments at the top of the file.
 Order = collections.namedtuple("Order", ["menu_item", "price"])
 ORDERS_BY_PERSON = {
-    person: [Order(*item[1:]) for item in group]
+    person: [Order(menu_item, price) for (_, menu_item, price) in group]
     for person, group in itertools.groupby(BILL_ITEMS, key=by_name)
 }
 AMOUNT_OWED_BY_PERSON = {
