@@ -14,7 +14,7 @@
 #
 # $ python bill_splitting.py Tim
 # Tim did not have dinner
-import argparse
+import sys
 import itertools
 
 BILL_ITEMS = [
@@ -48,14 +48,6 @@ ORDERS_BY_PERSON = {
 }
 
 
-def get_parser():
-    parser = argparse.ArgumentParser(
-        description="This program reports how much individuals should pay for their order at dinner."
-    )
-    parser.add_argument("person", nargs="?", help="Name of the person at dinner")
-    return parser
-
-
 def get_message(person):
     if not person:
         return "\n".join(
@@ -72,8 +64,11 @@ def get_message(person):
 
 
 def main():
-    args = get_parser().parse_args()
-    print(get_message(args.person))
+    try:
+        person = sys.argv[1]
+    except IndexError:
+        person = None
+    print(get_message(person))
 
 
 if __name__ == "__main__":
