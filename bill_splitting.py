@@ -15,7 +15,6 @@
 # $ python bill_splitting.py Tim
 # Tim did not have dinner
 import argparse
-import collections
 import itertools
 
 BILL_ITEMS = [
@@ -40,9 +39,15 @@ def by_name(list_item):
 
 BILL_ITEMS.sort(key=by_name)
 
+
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
-Order = collections.namedtuple("Order", ["menu_item", "price"])
+class Order:
+    def __init__(self, menu_item, price):
+        self.menu_item = menu_item
+        self.price = price
+
+
 ORDERS_BY_PERSON = {
     person: [Order(menu_item, price) for (_, menu_item, price) in group]
     for person, group in itertools.groupby(BILL_ITEMS, key=by_name)
