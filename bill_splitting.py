@@ -46,10 +46,6 @@ ORDERS_BY_PERSON = {
     person: [(menu_item, price) for (_, menu_item, price) in group]
     for person, group in itertools.groupby(BILL_ITEMS, key=by_name)
 }
-AMOUNT_OWED_BY_PERSON = {
-    person: sum(order[1] for order in orders)
-    for person, orders in ORDERS_BY_PERSON.items()
-}
 
 
 def get_parser():
@@ -64,15 +60,15 @@ def get_message(person):
     if not person:
         return "\n".join(
             [
-                f"{name:<10}|{amount_owed:<5}"
-                for (name, amount_owed) in AMOUNT_OWED_BY_PERSON.items()
+                f"{name:<10}|{sum(order[1] for order in orders):<5}"
+                for (name, orders) in ORDERS_BY_PERSON.items()
             ]
         )
     orders = ORDERS_BY_PERSON.get(person)
     if not orders:
         return f"{person} did not have dinner"
     breakdown = "\n".join([f"{order[0]} - {order[1]}" for order in orders])
-    return f"{person} should pay {AMOUNT_OWED_BY_PERSON.get(person)}. Breakdown:\n{breakdown}"
+    return f"{person} should pay {sum(order[1] for order in orders)}. Breakdown:\n{breakdown}"
 
 
 def main():
