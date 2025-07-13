@@ -15,7 +15,6 @@
 # $ python bill_splitting.py Tim
 # Tim did not have dinner
 import sys
-import itertools
 
 BILL_ITEMS = [
     ["Tom", "Calamari", 6.00],
@@ -42,10 +41,10 @@ BILL_ITEMS.sort(key=by_name)
 
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
-ORDERS_BY_PERSON = {
-    person: [(menu_item, price) for (_, menu_item, price) in group]
-    for person, group in itertools.groupby(BILL_ITEMS, key=by_name)
-}
+ORDERS_BY_PERSON = {}
+for name, menu_item, price in BILL_ITEMS:
+    orders = ORDERS_BY_PERSON.get(name, []) + [(menu_item, price)]
+    ORDERS_BY_PERSON.update({name: orders})
 
 
 def get_message(person):
