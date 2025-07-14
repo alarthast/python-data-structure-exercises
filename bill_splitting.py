@@ -38,6 +38,7 @@ ORDERS_BY_PERSON = {}
 for name, menu_item, price in BILL_ITEMS:
     orders = ORDERS_BY_PERSON.get(name, []) + [(menu_item, price)]
     ORDERS_BY_PERSON.update({name: orders})
+
 MENU_ITEMS_BY_PERSON = {
     name: tuple(order[0] for order in orders)
     for name, orders in ORDERS_BY_PERSON.items()
@@ -56,9 +57,7 @@ def get_message(person):
                 for (name, prices) in PRICES_BY_PERSON.items()
             ]
         )
-    menu_items = MENU_ITEMS_BY_PERSON.get(
-        person,
-    )
+    menu_items = MENU_ITEMS_BY_PERSON.get(person)
     prices = PRICES_BY_PERSON.get(person)
 
     if not menu_items:
