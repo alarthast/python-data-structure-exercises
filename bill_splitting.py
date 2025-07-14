@@ -38,21 +38,35 @@ ORDERS_BY_PERSON = {}
 for name, menu_item, price in BILL_ITEMS:
     orders = ORDERS_BY_PERSON.get(name, []) + [(menu_item, price)]
     ORDERS_BY_PERSON.update({name: orders})
+MENU_ITEMS_BY_PERSON = {
+    name: tuple(order[0] for order in orders)
+    for name, orders in ORDERS_BY_PERSON.items()
+}
+PRICES_BY_PERSON = {
+    name: tuple(order[1] for order in orders)
+    for name, orders in ORDERS_BY_PERSON.items()
+}
 
 
 def get_message(person):
     if not person:
         return "\n".join(
             [
-                f"{name:<10}|{sum(order[1] for order in orders):<5}"
-                for (name, orders) in ORDERS_BY_PERSON.items()
+                f"{name:<10}|{sum(prices):<5}"
+                for (name, prices) in PRICES_BY_PERSON.items()
             ]
         )
-    orders = ORDERS_BY_PERSON.get(person)
-    if not orders:
+    menu_items = MENU_ITEMS_BY_PERSON.get(
+        person,
+    )
+    prices = PRICES_BY_PERSON.get(person)
+
+    if not menu_items:
         return f"{person} did not have dinner"
-    breakdown = "\n".join([f"{order[0]} - {order[1]}" for order in orders])
-    return f"{person} should pay {sum(order[1] for order in orders)}. Breakdown:\n{breakdown}"
+    breakdown = "\n".join(
+        [f"{menu_items[i]} - {prices[i]}" for i in range(len(menu_items))]
+    )
+    return f"{person} should pay {sum(prices)}. Breakdown:\n{breakdown}"
 
 
 def main():
