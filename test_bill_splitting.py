@@ -19,19 +19,19 @@ def test_no_name_given():
     [
         (
             "Clare",
-            "Clare should pay 20.9. Breakdown:\nBruschetta Originale - 5.35\nFiorentina - 10.65\nTiramasu - 4.9",
+            "Clare should pay 20.9. Breakdown:\nBruschetta Originale, Fiorentina, Tiramasu",
         ),
         (
             "Tom",
-            "Tom should pay 21.95. Breakdown:\nCalamari - 6.0\nAmerican Hot - 11.5\nChocolate Fudge Cake - 4.45",
+            "Tom should pay 21.95. Breakdown:\nCalamari, American Hot, Chocolate Fudge Cake",
         ),
         (
             "Rich",
-            "Rich should pay 20.9. Breakdown:\nBruschetta Originale - 5.35\nLa Reine - 10.65\nHoneycomb Cream Slice - 4.9",
+            "Rich should pay 20.9. Breakdown:\nBruschetta Originale, La Reine, Honeycomb Cream Slice",
         ),
         (
             "Rosie",
-            "Rosie should pay 18.65. Breakdown:\nGarlic Bread - 4.35\nVeneziana - 9.4\nTiramasu - 4.9",
+            "Rosie should pay 18.65. Breakdown:\nGarlic Bread, Veneziana, Tiramasu",
         ),
         ("Tim", "Tim did not have dinner"),
     ],

@@ -63,9 +63,7 @@ def get_message(person):
 
     if not menu_items:
         return f"{person} did not have dinner"
-    breakdown = "\n".join(
-        [f"{menu_items[i]} - {prices[i]}" for i in range(len(menu_items))]
-    )
+    breakdown = ", ".join(menu_items)
     return f"{person} should pay {sum(prices)}. Breakdown:\n{breakdown}"
 
 
