@@ -32,13 +32,6 @@ BILL_ITEMS = [
 ]
 
 
-def by_name(list_item):
-    return list_item[0]
-
-
-BILL_ITEMS.sort(key=by_name)
-
-
 # TODO:
 # * Implement the program as described in the comments at the top of the file.
 ORDERS_BY_PERSON = {}
