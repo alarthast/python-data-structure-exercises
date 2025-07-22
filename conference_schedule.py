@@ -40,19 +40,51 @@ schedule = {
 }
 
 NOT_FOUND = object()
+CONFERENCE_END = "18:00"  # assumed
+
+
+def _convert_to_minutes_since_midnight(time):
+    """Convert a time in the HH:MM format to the number of seconds since the day began."""
+    try:
+        hh, mm = time.split(":")
+        return hh * 60 + mm
+    except ValueError:
+        raise ValueError("Time must be provided in HH:MM format.")
 
 
 def get_session(room, time):
-    return schedule.get(room, {}).get(time, NOT_FOUND)
+    time_in_mins = _convert_to_minutes_since_midnight(time)
+
+    try:
+        room_schedule = schedule[room]
+    except KeyError:
+        return NOT_FOUND
+
+    time_in_mins_to_session = {
+        _convert_to_minutes_since_midnight(key): value
+        for key, value in room_schedule.items()
+    }
+
+    session_times_in_mins = sorted(time_in_mins_to_session.keys())
+
+    if time_in_mins < session_times_in_mins[0]:  # Before the first session starts
+        return NOT_FOUND
+    elif time_in_mins > _convert_to_minutes_since_midnight(CONFERENCE_END):
+        return NOT_FOUND
+    else:
+        for session_time_in_mins in session_times_in_mins[::-1]:
+            if time_in_mins >= session_time_in_mins:
+                return time_in_mins_to_session[session_time_in_mins]
+    assert False, f"Unable to determine slot for {time_in_mins}."
 
 
 def main(args):
     room, time = args
     session = get_session(room, time)
     if session is NOT_FOUND:
-        message = f"There is not a session in {room} that starts at {time}."
+        message = f"There is not a session in {room} running at {time}."
     else:
-        message = f"The session that starts in {room} at {time} is {session}."
+        message = f"The session that is running in {room} at {time} is {session}."
     print(message)
 
 
