@@ -50,7 +50,7 @@ CONFERENCE_END = "18:00"  # assumed
 
 
 def _convert_to_minutes_since_midnight(time):
-    """Convert a time in the HH:MM format to the number of seconds since the day began."""
+    """Convert a time in the HH:MM format to the number of minutes since the day began."""
     try:
         hh, mm = time.split(":")
         return hh * 60 + mm
@@ -73,9 +73,10 @@ def get_session(room, time):
 
     session_times_in_mins = sorted(time_in_mins_to_session.keys())
 
+    conference_end_time_in_mins = _convert_to_minutes_since_midnight(CONFERENCE_END)
     if time_in_mins < session_times_in_mins[0]:  # Before the first session starts
         return NOT_FOUND
-    elif time_in_mins > _convert_to_minutes_since_midnight(CONFERENCE_END):
+    elif time_in_mins > conference_end_time_in_mins:
         return NOT_FOUND
     else:
         for session_time_in_mins in session_times_in_mins[::-1]:
