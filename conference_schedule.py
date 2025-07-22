@@ -10,7 +10,7 @@
 #
 # $ python conference_schedule.py "Main Hall" 13:30
 #
-
+import sys
 
 schedule = {
     "Main Hall": {
@@ -39,13 +39,20 @@ schedule = {
     },
 }
 
-
-def get_message():
-    return "There are talks scheduled in {} rooms".format(len(schedule))
+NOT_FOUND = object()
 
 
-def main():
-    return print(get_message())
+def get_message(room, time):
+    session = schedule.get(room, {}).get(time, NOT_FOUND)
+    if session is NOT_FOUND:
+        return f"There is not a session in {room} that starts at {time}."
+    return f"The session that starts in {room} at {time} is {session}."
+
+
+def main(args):
+    room, time = args
+    message = get_message(room, time)
+    print(message)
 
 
 # TODO:
@@ -58,4 +65,4 @@ def main():
 #   session, it displays the room and the time of the session.
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
