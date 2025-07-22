@@ -39,6 +39,12 @@ SCHEDULE = {
     },
 }
 
+SESSION_NAME_TO_ROOM_AND_TIME = {}
+for room, room_schedule in SCHEDULE.items():
+    for time, session in room_schedule.items():
+        SESSION_NAME_TO_ROOM_AND_TIME[session] = (room, time)
+
+
 NOT_FOUND = object()
 CONFERENCE_END = "18:00"  # assumed
 
@@ -79,12 +85,24 @@ def get_session(room, time):
 
 
 def main(args):
-    room, time = args
-    session = get_session(room, time)
-    if session is NOT_FOUND:
-        message = f"There is not a session in {room} running at {time}."
+    if len(args) == 1:
+        (session,) = args
+        room, time = SESSION_NAME_TO_ROOM_AND_TIME.get(session, (NOT_FOUND, NOT_FOUND))
+        if (room, time) == (NOT_FOUND, NOT_FOUND):
+            message = f"Session {session} is not found."
+        else:
+            message = f"{session} is in the {room} at {time}."
+    elif len(args) == 2:
+        room, time = args
+        session = get_session(room, time)
+        if session is NOT_FOUND:
+            message = f"There is not a session in {room} running at {time}."
+        else:
+            message = f"The session that is running in {room} at {time} is {session}."
     else:
-        message = f"The session that is running in {room} at {time} is {session}."
+        message = (
+            "Input is invalid. Enter either a session name or a room/time combination."
+        )
     print(message)
 
 
