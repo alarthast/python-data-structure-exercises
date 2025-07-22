@@ -42,16 +42,17 @@ schedule = {
 NOT_FOUND = object()
 
 
-def get_message(room, time):
-    session = schedule.get(room, {}).get(time, NOT_FOUND)
-    if session is NOT_FOUND:
-        return f"There is not a session in {room} that starts at {time}."
-    return f"The session that starts in {room} at {time} is {session}."
+def get_session(room, time):
+    return schedule.get(room, {}).get(time, NOT_FOUND)
 
 
 def main(args):
     room, time = args
-    message = get_message(room, time)
+    session = get_session(room, time)
+    if session is NOT_FOUND:
+        message = f"There is not a session in {room} that starts at {time}."
+    else:
+        message = f"The session that starts in {room} at {time} is {session}."
     print(message)
 
 
