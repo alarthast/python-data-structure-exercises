@@ -12,7 +12,7 @@
 #
 import sys
 
-schedule = {
+SCHEDULE = {
     "Main Hall": {
         "10:00": "Django REST framework",
         "11:00": "Lessons learned from PHP",
@@ -56,7 +56,7 @@ def get_session(room, time):
     time_in_mins = _convert_to_minutes_since_midnight(time)
 
     try:
-        room_schedule = schedule[room]
+        room_schedule = SCHEDULE[room]
     except KeyError:
         return NOT_FOUND
 
