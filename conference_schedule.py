@@ -85,16 +85,27 @@ def get_room_and_time(session):
     return SESSION_NAME_TO_ROOM_AND_TIME.get(session, ("", ""))
 
 
+def parse_args(args):
+    try:
+        _, session = args
+        return (session, "", "")
+    except ValueError:
+        try:
+            _, room, time = args
+            return ("", room, time)
+        except ValueError:
+            return ("", "", "")
+
+
 def main(args):
-    if len(args) == 1:
-        (session,) = args
+    session, room, time = parse_args(args)
+    if session:
         room, time = get_room_and_time(session)
         if room and time:
             message = f"{session} is in the {room} at {time}."
         else:
             message = f"Session {session} is not found."
-    elif len(args) == 2:
-        room, time = args
+    elif room and time:
         session = get_session(room, time)
         if session:
             message = f"The session that is running in {room} at {time} is {session}."
@@ -117,4 +128,4 @@ def main(args):
 #   session, it displays the room and the time of the session.
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main(sys.argv)
