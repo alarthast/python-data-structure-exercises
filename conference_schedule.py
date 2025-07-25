@@ -46,39 +46,23 @@ for room, room_schedule in SCHEDULE.items():
 
 
 NOT_FOUND = ""
-CONFERENCE_END = "18:00"  # assumed
 
 
-def _convert_to_minutes_since_midnight(time):
-    """Convert a time in the HH:MM format to the number of minutes since the day began."""
+def floor_to_nearest_hour(time):
+    """Convert a time in the HH:MM format to HH:00 format."""
     try:
         hh, mm = time.split(":")
-        return hh * 60 + mm
+        num_mins_since_midnight = int(hh) * 60 + int(mm)
     except ValueError:
         raise ValueError("Time must be provided in HH:MM format.")
+    return num_mins_since_midnight // 60
 
 
 def get_session(room, time):
-    time_in_mins = _convert_to_minutes_since_midnight(time)
-    time_in_mins_to_session = {
-        _convert_to_minutes_since_midnight(key): value
-        for key, value in SCHEDULE.get(room, {}).items()
-    }
-    if not time_in_mins_to_session:
-        return NOT_FOUND
-
-    session_times_in_mins = sorted(time_in_mins_to_session.keys())
-
-    conference_end_time_in_mins = _convert_to_minutes_since_midnight(CONFERENCE_END)
-    if time_in_mins < session_times_in_mins[0]:  # Before the first session starts
-        return NOT_FOUND
-    elif time_in_mins > conference_end_time_in_mins:
-        return NOT_FOUND
-    else:
-        for session_time_in_mins in session_times_in_mins[::-1]:
-            if time_in_mins >= session_time_in_mins:
-                return time_in_mins_to_session[session_time_in_mins]
-    assert False, f"Unable to determine slot for {time_in_mins}."
+    nearest_hour = floor_to_nearest_hour(time)
+    session_start_time = f"{nearest_hour}:00"
+    session = SCHEDULE.get(room, {}).get(session_start_time, NOT_FOUND)
+    return session
 
 
 def get_room_and_time(session):
