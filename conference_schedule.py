@@ -81,14 +81,18 @@ def get_session(room, time):
     assert False, f"Unable to determine slot for {time_in_mins}."
 
 
+def get_room_and_time(session):
+    return SESSION_NAME_TO_ROOM_AND_TIME.get(session, ("", ""))
+
+
 def main(args):
     if len(args) == 1:
         (session,) = args
-        room, time = SESSION_NAME_TO_ROOM_AND_TIME.get(session, (NOT_FOUND, NOT_FOUND))
-        if (room, time) == (NOT_FOUND, NOT_FOUND):
-            message = f"Session {session} is not found."
-        else:
+        room, time = get_room_and_time(session)
+        if room and time:
             message = f"{session} is in the {room} at {time}."
+        else:
+            message = f"Session {session} is not found."
     elif len(args) == 2:
         room, time = args
         session = get_session(room, time)
