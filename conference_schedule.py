@@ -45,7 +45,7 @@ for room, room_schedule in SCHEDULE.items():
         SESSION_NAME_TO_ROOM_AND_TIME[session] = (room, time)
 
 
-NOT_FOUND = object()
+NOT_FOUND = ""
 CONFERENCE_END = "18:00"  # assumed
 
 
@@ -60,16 +60,12 @@ def _convert_to_minutes_since_midnight(time):
 
 def get_session(room, time):
     time_in_mins = _convert_to_minutes_since_midnight(time)
-
-    try:
-        room_schedule = SCHEDULE[room]
-    except KeyError:
-        return NOT_FOUND
-
     time_in_mins_to_session = {
         _convert_to_minutes_since_midnight(key): value
-        for key, value in room_schedule.items()
+        for key, value in SCHEDULE.get(room, {}).items()
     }
+    if not time_in_mins_to_session:
+        return NOT_FOUND
 
     session_times_in_mins = sorted(time_in_mins_to_session.keys())
 
@@ -96,7 +92,7 @@ def main(args):
     elif len(args) == 2:
         room, time = args
         session = get_session(room, time)
-        if session is NOT_FOUND:
+        if not session:
             message = f"There is not a session in {room} running at {time}."
         else:
             message = f"The session that is running in {room} at {time} is {session}."
