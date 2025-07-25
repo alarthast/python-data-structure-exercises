@@ -96,10 +96,10 @@ def main(args):
     elif len(args) == 2:
         room, time = args
         session = get_session(room, time)
-        if not session:
-            message = f"There is not a session in {room} running at {time}."
-        else:
+        if session:
             message = f"The session that is running in {room} at {time} is {session}."
+        else:
+            message = f"There is not a session in {room} running at {time}."
     else:
         message = (
             "Input is invalid. Enter either a session name or a room/time combination."
