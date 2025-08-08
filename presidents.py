@@ -72,6 +72,14 @@ print(
     f"The month with the most presidents taking office is {most_common_month} with {most_common_count} presidents."
 )
 #   * Which decade saw the most presidents take office?
+years = sorted([president.took_office.year for president in presidents])
+decades = [year // 10 * 10 for year in years]
+decades_counter = collections.Counter(decades)
+print(decades_counter)
+((most_common_decade, most_common_count),) = decades_counter.most_common(1)
+print(
+    f"The decade with the most presidents taking office is the {most_common_decade}s with {most_common_count} presidents."
+)
 #   * Which party has been in power for longest?
 #   * What is the average age of becoming president?
 average_age = sum(p.age_took_office for p in presidents) / len(presidents)
