@@ -1,4 +1,4 @@
-from collections import namedtuple
+import collections
 
 from presidents_data import presidents_by_party
 
@@ -8,7 +8,7 @@ print(
     )
 )
 
-President = namedtuple(
+President = collections.namedtuple(
     "President",
     ["party", "name", "born", "took_office", "left_office", "age_took_office"],
 )
@@ -26,8 +26,8 @@ for party, records in presidents_by_party.items():
                 (record["took_office"] - record["born"]).days // 365,
             )
         )
-
-presidents_sorted = sorted(
+# Use age_took_office for default sorting
+presidents = sorted(
     presidents,
     key=lambda president: president.age_took_office,
 )
@@ -42,28 +42,26 @@ print(
     f"The {party} party has had the most presidents, with {len(presidents_by_party[party])} presidents."
 )
 #   * Who was the youngest Republican president when they took office?
-for president in presidents_sorted:
+for president in presidents:
     if president.party == "Republican":
-        youngest_republican = president
         break
 print(
-    f"The youngest Republican president when they took office was {youngest_republican.name} at the age of {youngest_republican.age_took_office}."
+    f"The youngest Republican president when they took office was {president.name} at the age of {president.age_took_office}."
 )
 #   * Who was the oldest Democrat president when they took office?
-for president in presidents_sorted[::-1]:
+for president in presidents[::-1]:
     if president.party == "Democratic":
-        oldest_democrat = president
         break
 print(
-    f"The oldest Democrat president when they took office was {oldest_democrat.name} at the age of {oldest_democrat.age_took_office}."
+    f"The oldest Democrat president when they took office was {president.name} at the age of {president.age_took_office}."
 )
 #   * Who was the youngest president (from any party) when they took office?
 print(
-    f"The youngest president when they took office was {presidents_sorted[0].name} at the age of {presidents_sorted[0].age_took_office}."
+    f"The youngest president when they took office was {presidents[0].name} at the age of {presidents[0].age_took_office}."
 )
 #   * Who was the oldest president (from any party) when they took office?
 print(
-    f"The oldest president when they took office was {presidents_sorted[-1].name} at the age of {presidents_sorted[-1].age_took_office}."
+    f"The oldest president when they took office was {presidents[-1].name} at the age of {presidents[-1].age_took_office}."
 )
 #   * Which month saw the most presidents take office?
 #   * Which decade saw the most presidents take office?
