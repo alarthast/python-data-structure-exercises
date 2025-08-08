@@ -1,4 +1,5 @@
 import collections
+import operator
 
 from presidents_data import presidents_by_party
 
@@ -81,6 +82,23 @@ print(
     f"The decade with the most presidents taking office is the {most_common_decade}s with {most_common_count} presidents."
 )
 #   * Which party has been in power for longest?
+# Essentially recreating the initial dict so could have used that too
+presidents_by_party = collections.defaultdict(list)
+for president in sorted(presidents, key=operator.attrgetter("took_office")):
+    presidents_by_party[president.party].append(president)
+years_in_power_by_party = {
+    party: sum(
+        (president.left_office - president.took_office).days / 365
+        for president in party_presidents
+    )
+    for party, party_presidents in presidents_by_party.items()
+}
+party_with_longest_total_time = max(
+    years_in_power_by_party.keys(), key=years_in_power_by_party.get
+)
+print(
+    f"The party that has been in power for the longest total time is {party_with_longest_total_time}, with {years_in_power_by_party[party_with_longest_total_time]:.2f} years."
+)
 #   * What is the average age of becoming president?
 average_age = sum(p.age_took_office for p in presidents) / len(presidents)
 print(f"The average age of becoming president is {average_age:.2f} years.")
