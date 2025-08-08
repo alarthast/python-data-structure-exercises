@@ -64,8 +64,10 @@ print(
     f"The oldest president when they took office was {presidents[-1].name} at the age of {presidents[-1].age_took_office}."
 )
 #   * Which month saw the most presidents take office?
-months = [president.took_office.month for president in presidents]
-((most_common_month, most_common_count),) = collections.Counter(months).most_common(1)
+months = sorted([president.took_office.strftime("%B") for president in presidents])
+months_counter = collections.Counter(months)
+((most_common_month, most_common_count),) = months_counter.most_common(1)
+print(months_counter)
 print(
     f"The month with the most presidents taking office is {most_common_month} with {most_common_count} presidents."
 )
