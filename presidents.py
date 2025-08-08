@@ -1,8 +1,10 @@
-from date import date
-
 from presidents_data import presidents_by_party
 
-print('There have been presidents from {} different parties'.format(len(presidents_data)))
+print(
+    "There have been presidents from {} different parties".format(
+        len(presidents_by_party)
+    )
+)
 
 
 # TODO:
