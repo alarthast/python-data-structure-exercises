@@ -69,4 +69,6 @@ print(
 #   * Which decade saw the most presidents take office?
 #   * Which party has been in power for longest?
 #   * What is the average age of becoming president?
+average_age = sum(p.age_took_office for p in presidents) / len(presidents)
+print(f"The average age of becoming president is {average_age:.2f} years.")
 #   * Which presidents have taken office more than once?
