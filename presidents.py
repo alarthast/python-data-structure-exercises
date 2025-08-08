@@ -10,6 +10,12 @@ print(
 # TODO:
 # * Display a report that answers the following questions:
 #   * Which party has had most presidents?
+party = max(
+    presidents_by_party.keys(), key=lambda party: len(presidents_by_party.get(party))
+)
+print(
+    f"The {party} party has had the most presidents, with {len(presidents_by_party[party])} presidents."
+)
 #   * Who was the youngest Republican president when they took office?
 #   * Who was the oldest Democrat president when they took office?
 #   * Who was the youngest president (from any party) when they took office?
