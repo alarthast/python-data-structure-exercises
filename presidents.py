@@ -103,3 +103,10 @@ print(
 average_age = sum(p.age_took_office for p in presidents) / len(presidents)
 print(f"The average age of becoming president is {average_age:.2f} years.")
 #   * Which presidents have taken office more than once?
+names = [president.name for president in presidents]
+name_counter = collections.Counter(names)
+multi_office_presidents = [name for name, count in name_counter.items() if count > 1]
+print(
+    "President(s) who have taken office more than once are: "
+    + ",".join(multi_office_presidents)
+)
