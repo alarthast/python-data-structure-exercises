@@ -56,6 +56,13 @@ def get_most_common_value(presidents, field, transform_func=None):
     return counter.most_common(1)[0]
 
 
+def aggregate(presidents, field_to_agg, by_field):
+    aggregated = collections.defaultdict(int)
+    for president in presidents:
+        aggregated[president.party] += getattr(president, field_to_agg)
+    return aggregated
+
+
 # TODO:
 # * Display a report that answers the following questions:
 
@@ -72,71 +79,72 @@ def report(presidents):
         presidents, "party"
     )
 
-    print(
-        f"The {most_common_party} party has had the most presidents, with {most_common_party_count} presidents."
-    )
-
     #   * Who was the youngest Republican president when they took office?
     youngest_republican = get_first_row_where_field_is_value(
         presidents, "party", "Republican"
-    )
-    print(
-        f"The youngest Republican president when they took office was {youngest_republican.name} at the age of {youngest_republican.age_took_office}."
     )
 
     #   * Who was the oldest Democrat president when they took office?
     oldest_democrat = get_first_row_where_field_is_value(
         presidents[::-1], "party", "Democratic"
     )
-    print(
-        f"The oldest Democrat president when they took office was {oldest_democrat.name} at the age of {oldest_democrat.age_took_office}."
-    )
 
     #   * Who was the youngest president (from any party) when they took office?
-    print(
-        f"The youngest president when they took office was {presidents[0].name} at the age of {presidents[0].age_took_office}."
-    )
+    youngest_president = presidents[0]
+
     #   * Who was the oldest president (from any party) when they took office?
-    print(
-        f"The oldest president when they took office was {presidents[-1].name} at the age of {presidents[-1].age_took_office}."
-    )
+    oldest_president = presidents[-1]
 
     #   * Which month saw the most presidents take office?
-    most_common_month, most_common_count = get_most_common_value(
+    most_common_month, most_common_month_count = get_most_common_value(
         presidents, "took_office", lambda date: date.strftime("%B")
-    )
-    print(
-        f"The month with the most presidents taking office is {most_common_month} with {most_common_count} presidents."
     )
 
     #   * Which decade saw the most presidents take office?
-    most_common_decade, most_common_count = get_most_common_value(
+    most_common_decade, most_common_decade_count = get_most_common_value(
         presidents, "took_office", lambda date: date.year // 10 * 10
-    )
-    print(
-        f"The decade with the most presidents taking office is the {most_common_decade}s with {most_common_count} presidents."
     )
 
     #   * Which party has been in power for longest?
-    days_in_power_by_party = collections.defaultdict(int)
-    for president in presidents:
-        days_in_power_by_party[president.party] += president.days_in_office
+    days_in_power_by_party = aggregate(presidents, "days_in_office", "party")
     party_with_longest_total_time = max(
         days_in_power_by_party.keys(), key=days_in_power_by_party.get
-    )
-    print(
-        f"The party that has been in power for the longest total time is {party_with_longest_total_time}, with {days_in_power_by_party[party_with_longest_total_time]} days."
     )
 
     #   * What is the average age of becoming president?
     average_age = sum(p.age_took_office for p in presidents) / len(presidents)
-    print(f"The average age of becoming president is {average_age:.2f} years.")
 
     #   * Which presidents have taken office more than once?
     name_counter = get_counter_for_field(presidents, "name")
     multi_office_presidents = [
         name for name, count in name_counter.items() if count > 1
     ]
+
+    print(
+        f"The {most_common_party} party has had the most presidents, with {most_common_party_count} presidents."
+    )
+    print(
+        f"The youngest Republican president when they took office was {youngest_republican.name} at the age of {youngest_republican.age_took_office}."
+    )
+    print(
+        f"The oldest Democrat president when they took office was {oldest_democrat.name} at the age of {oldest_democrat.age_took_office}."
+    )
+    print(
+        f"The youngest president when they took office was {youngest_president.name} at the age of {youngest_president.age_took_office}."
+    )
+    print(
+        f"The oldest president when they took office was {oldest_president.name} at the age of {oldest_president.age_took_office}."
+    )
+    print(
+        f"The month with the most presidents taking office is {most_common_month} with {most_common_month_count} presidents."
+    )
+    print(
+        f"The decade with the most presidents taking office is the {most_common_decade}s with {most_common_decade_count} presidents."
+    )
+    print(
+        f"The party that has been in power for the longest total time is {party_with_longest_total_time}, with {days_in_power_by_party[party_with_longest_total_time]} days."
+    )
+    print(f"The average age of becoming president is {average_age:.2f} years.")
     print(
         "President(s) who have taken office more than once are: "
         + ",".join(multi_office_presidents)
