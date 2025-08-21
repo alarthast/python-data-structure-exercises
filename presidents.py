@@ -21,6 +21,8 @@ President = collections.namedtuple(
     ],
 )
 
+ValueCount = collections.namedtuple("ValueCount", ["value", "count"])
+
 PRESIDENTS = []
 for party, records in presidents_by_party.items():
     for record in records:
@@ -53,7 +55,8 @@ def get_counter_for_field(presidents, field, transform_func=None):
 
 def get_most_common_value(presidents, field, transform_func=None):
     counter = get_counter_for_field(presidents, field, transform_func)
-    return counter.most_common(1)[0]
+    value, count = counter.most_common(1)[0]
+    return ValueCount(value, count)
 
 
 def aggregate(presidents, field_to_agg, by_field):
@@ -75,9 +78,7 @@ def report(presidents):
     )
 
     #   * Which party has had most presidents?
-    most_common_party, most_common_party_count = get_most_common_value(
-        presidents, "party"
-    )
+    most_common_party = get_most_common_value(presidents, "party")
 
     #   * Who was the youngest Republican president when they took office?
     youngest_republican = get_first_row_where_field_is_value(
@@ -96,12 +97,12 @@ def report(presidents):
     oldest_president = presidents[-1]
 
     #   * Which month saw the most presidents take office?
-    most_common_month, most_common_month_count = get_most_common_value(
+    most_common_month = get_most_common_value(
         presidents, "took_office", lambda date: date.strftime("%B")
     )
 
     #   * Which decade saw the most presidents take office?
-    most_common_decade, most_common_decade_count = get_most_common_value(
+    most_common_decade = get_most_common_value(
         presidents, "took_office", lambda date: date.year // 10 * 10
     )
 
@@ -121,7 +122,7 @@ def report(presidents):
     ]
 
     print(
-        f"The {most_common_party} party has had the most presidents, with {most_common_party_count} presidents."
+        f"The {most_common_party.value} party has had the most presidents, with {most_common_party.count} presidents."
     )
     print(
         f"The youngest Republican president when they took office was {youngest_republican.name} at the age of {youngest_republican.age_took_office}."
@@ -136,10 +137,10 @@ def report(presidents):
         f"The oldest president when they took office was {oldest_president.name} at the age of {oldest_president.age_took_office}."
     )
     print(
-        f"The month with the most presidents taking office is {most_common_month} with {most_common_month_count} presidents."
+        f"The month with the most presidents taking office is {most_common_month.value} with {most_common_month.count} presidents."
     )
     print(
-        f"The decade with the most presidents taking office is the {most_common_decade}s with {most_common_decade_count} presidents."
+        f"The decade with the most presidents taking office is the {most_common_decade.value}s with {most_common_decade.count} presidents."
     )
     print(
         f"The party that has been in power for the longest total time is {party_with_longest_total_time}, with {days_in_power_by_party[party_with_longest_total_time]} days."
