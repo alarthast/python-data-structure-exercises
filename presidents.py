@@ -118,14 +118,14 @@ def report(presidents):
     )
 
     #   * Which party has been in power for longest?
-    years_in_power_by_party = collections.defaultdict(int)
+    days_in_power_by_party = collections.defaultdict(int)
     for president in presidents:
-        years_in_power_by_party[president.party] += president.days_in_office
+        days_in_power_by_party[president.party] += president.days_in_office
     party_with_longest_total_time = max(
-        years_in_power_by_party.keys(), key=years_in_power_by_party.get
+        days_in_power_by_party.keys(), key=days_in_power_by_party.get
     )
     print(
-        f"The party that has been in power for the longest total time is {party_with_longest_total_time}, with {years_in_power_by_party[party_with_longest_total_time]} days."
+        f"The party that has been in power for the longest total time is {party_with_longest_total_time}, with {days_in_power_by_party[party_with_longest_total_time]} days."
     )
 
     #   * What is the average age of becoming president?
