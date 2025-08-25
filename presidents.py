@@ -62,7 +62,7 @@ def get_most_common_value(presidents, field, transform_func=None):
 def aggregate(presidents, field_to_agg, by_field):
     aggregated = collections.defaultdict(int)
     for president in presidents:
-        aggregated[president.party] += getattr(president, field_to_agg)
+        aggregated[getattr(president, by_field)] += getattr(president, field_to_agg)
     return aggregated
 
 
