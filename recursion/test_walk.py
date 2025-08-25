@@ -4,7 +4,7 @@ import pytest
 import solutions
 
 
-@pytest.mark.parametrize("walk", [solutions.walk_3])
+@pytest.mark.parametrize("walk", [solutions.walk_1, solutions.walk_3])
 def test_walk(walk, tmpdir):
     root_dir = pathlib.Path(tmpdir)
     dirs = [

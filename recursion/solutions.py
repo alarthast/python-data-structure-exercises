@@ -1,6 +1,13 @@
 import pathlib
 
 
+def walk_1(path: pathlib.Path):  # Recusion and no generators
+    """Return a list of all paths to files nested in path."""
+    if not path.is_dir():
+        return [path]
+    return [path_ for item in path.iterdir() for path_ in walk_1(item)]
+
+
 def walk_3(path: pathlib.Path):  # No recursion
     """Return a list of all paths to files nested in path."""
     files = []
