@@ -7,7 +7,12 @@
 
 from browser_stats_data import browser_stats_by_year_and_month
 
-print('browser_stats_by_year_and_month is a {} with {} elements'.format(type(browser_stats_by_year_and_month).__name__, len(browser_stats_by_year_and_month)))
+print(
+    "browser_stats_by_year_and_month is a {} with {} elements".format(
+        type(browser_stats_by_year_and_month).__name__,
+        len(browser_stats_by_year_and_month),
+    )
+)
 
 
 # TODO:
@@ -19,4 +24,4 @@ print('browser_stats_by_year_and_month is a {} with {} elements'.format(type(bro
 #   * In which month was Firefox's popularity highest?
 #   * In which month was the combined popularity of Safari and Opera highest?
 #   * Which month saw the biggest percentage point rise in Chrome's popularity?
-#   * Which month saw the biggest percentage point 
+#   * Which month saw the biggest percentage point
