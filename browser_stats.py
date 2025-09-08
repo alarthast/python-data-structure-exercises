@@ -32,14 +32,6 @@ browser_data = [
 ]
 
 
-print(
-    "browser_stats_by_year_and_month is a {} with {} elements".format(
-        type(browser_stats_by_year_and_month).__name__,
-        len(browser_stats_by_year_and_month),
-    )
-)
-
-
 def get_first_occurrence_of_event(sorted_data, boolean_function):
     for row in sorted_data:
         if boolean_function(row):
