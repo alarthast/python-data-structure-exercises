@@ -16,8 +16,8 @@ def get_date(year, month):
     return datetime.datetime.strptime(f"{year}{month}", "%Y%B").date()
 
 
-browsers = ("chrome", "ie", "firefox", "safari", "opera")
-Row = collections.namedtuple("WideRow", ["date", *browsers])
+BROWSERS = ("chrome", "ie", "firefox", "safari", "opera")
+Row = collections.namedtuple("WideRow", ["date", *BROWSERS])
 browser_data = [
     Row(
         date=get_date(year, month),
@@ -76,7 +76,7 @@ def report(data):
     data = sorted(data, key=operator.attrgetter("date"))
 
     date_when_firefox_first_became_most_popular = get_first_occurrence_of_event(
-        data, lambda row: max(browsers, key=row.__getattribute__) == "firefox"
+        data, lambda row: max(BROWSERS, key=row.__getattribute__) == "firefox"
     ).date
 
     date_when_chrome_first_overtook_ie_in_popularity = get_first_occurrence_of_event(
